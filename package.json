@@ -1,0 +1,28 @@
+{
+  "name": "lottery-turntable",
+  "version": "1.0.0",
+  "description": "turntable for lottery",
+  "main": "turntable.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coffeedeveloper/turntable.git"
+  },
+  "keywords": [
+    "lottery",
+    "turntable"
+  ],
+  "author": "CoffeeDeveloper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coffeedeveloper/turntable/issues"
+  },
+  "homepage": "https://github.com/coffeedeveloper/turntable#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.1"
+  }
+}
