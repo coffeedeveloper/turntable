@@ -146,7 +146,7 @@
       if (parseInt(this.turnTotal, 10) == parseInt(this.turnEndDegree)) {
         cancelAnimationFrame(this.animation);
         this.svg.style.transform = 'rotate(' + -this.turnTotal + 'deg)';
-        this.turnCallback();
+        this.turnCallback(this.opts.values[this.index]);
         return false;
       }
 
@@ -225,6 +225,8 @@
         } else {
           info.degree = this.values[i-1].degree + this.degree;
         }
+
+        if (info.degree >= 360) info.degree = info.degree - 360;
 
         var g = createSvgEle('g');
 
