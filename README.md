@@ -57,5 +57,7 @@ turntable.start();
 ```javascript
 //id 中奖的奖品id，对应初始化选项里面的values的奖品对象的id
 //callback 转盘滚动结束后，触发回调
-turntable.end(id, callback);
+turntable.end(id, function(data) {
+  console.log(data); //对应在values里面的礼品对象
+});
 ```
