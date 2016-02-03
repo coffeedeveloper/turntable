@@ -200,6 +200,7 @@
         if (parseInt(this.turnTotal, 10) == parseInt(this.turnEndDegree)) {
           cancelAnimationFrame(this.animation);
           this.svg.style.transform = 'rotate(' + -this.turnTotal + 'deg)';
+          this.isTurning = false;
           this.turnCallback(this.opts.values[this.index]);
           return false;
         }
@@ -224,10 +225,12 @@
     }, {
       key: 'start',
       value: function start() {
+        if (this.isTurning) return;
         this.turnBase = this.opts.speed;
         this.turnTotal = 0;
         this.isTurnStop = false;
         this.index = null;
+        this.isTurning = true;
         this.turn();
         setTimeout(function () {
           this.turnBase = this.opts.fastSpeed;
