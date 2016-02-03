@@ -1,0 +1,6 @@
+{
+  "presets": ["es2015", "stage-1"],
+  "sourceMaps": true,
+  "plugins": ["add-module-exports", "transform-es2015-modules-umd"],
+  "moduleId": "Turntable"
+}
