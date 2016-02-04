@@ -1,6 +1,6 @@
 {
   "name": "lottery-turntable",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "turntable for lottery",
   "main": "lib/index.js",
   "scripts": {

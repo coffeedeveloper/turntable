@@ -11,7 +11,22 @@ var turntable = new Turntable({
   slowSpeed: 5, //转盘从高速转动降下来的速度，数字必须能够给360整除
   speedUp: 2000, //多少毫秒后进入高速转动
   speedDown: 2000, //触发stop事件后，多少毫秒进入缓速
-  values: [] //奖品对象，根据传多少个奖品对象，自动生成相应数量的转盘抽奖内容
+  values: [], //奖品对象，根据传多少个奖品对象，自动生成相应数量的转盘抽奖内容
+  container: document.getElementById('id') //转盘的容器，如果设置了之后，new Turntable的时候会自动填充内容
+});
+```
+
+#### 新增支持`transition`方式
+
+```javascript
+var turntabl = new Turntable({
+  size: 320, //转盘尺寸，默认为320
+  textSpace: 15, //奖品名称距离转盘边距，默认为15
+  imgSpace: 50, //奖品图片距离转盘边距，默认为50
+  speed: 5, //transition动画持续多长时间，秒为单位
+  ring: 8, //转动多少圈后到达终点，越大转速越快
+  values: [], //奖品对象，根据传多少个奖品对象，自动生成相应数量的转盘抽奖内容
+  container: document.getElementById('id') //转盘的容器，如果设置了之后，new Turntable的时候会自动填充内容
 });
 ```
 
@@ -44,20 +59,31 @@ var turntable = new Turntable({
 turntable.draw(document.getElementById('container'));
 ```
 
-#### start
+#### start（非transition方式的抽奖）
 开始抽奖（开始转动转盘）
 
 ```javascript
 turntable.start();
 ```
 
-#### stop
+#### stop（非transition方式的抽奖）
 抽奖结束（停止转动转盘）
 
 ```javascript
 //id 中奖的奖品id，对应初始化选项里面的values的奖品对象的id
 //callback 转盘滚动结束后，触发回调
 turntable.stop(id, function(data) {
+  console.log(data); //对应在values里面的礼品对象
+});
+```
+
+#### goto（只能用于transition方式的抽奖）
+跳转到指定的id的奖品，在请求后台取得中奖奖品id后，就滚动到对应的奖品
+
+```javascript
+//id 中奖的奖品id，对应初始化选项里面的values的奖品对象的id
+//callback 转盘滚动结束后，触发回调
+turntable.goto(id, function(data) {
   console.log(data); //对应在values里面的礼品对象
 });
 ```
