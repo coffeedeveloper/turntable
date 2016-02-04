@@ -53,6 +53,13 @@
     }
   };
 
+  var appendCSS = function appendCSS(css) {
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var style = document.createElement('style');
+    style.appendChild(document.createTextNode(css));
+    head.appendChild(style);
+  };
+
   var extend = function extend(target) {
     for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
@@ -126,6 +133,7 @@
   };
 
   var defaults = {
+    type: 'frame',
     size: 320,
     textSpace: 15,
     imgSpace: 50,
@@ -134,7 +142,9 @@
     slowSpeed: 5,
     speedUp: 2000,
     speedDown: 2000,
-    values: []
+    values: [],
+    className: 'turntable-effect',
+    ring: 8
   };
 
   var Turntable = function () {
@@ -163,10 +173,7 @@
       this.degree = 360 / this.count;
       this.container = null;
       this.svg = null;
-
-      if (this.opts.container) {
-        this.draw(this.opts.container);
-      }
+      if (this.opts.container) this.draw(this.opts.container);
     }
 
     _createClass(Turntable, [{
@@ -174,8 +181,8 @@
       value: function getValueIndexById(id) {
         var r = this.values.filter(function (d) {
           return d.id == id;
-        }).map(function (d, i) {
-          return i;
+        }).map(function (d) {
+          return d.index;
         });
         return r[random(0, r.length - 1)];
       }
@@ -251,15 +258,14 @@
       }
     }, {
       key: 'goto',
-      value: function goto(i) {
-        if (i < this.values.length) {
-          this.svg.style.transform = 'rotate(' + -this.values[i].degree + 'deg)';
-        }
-      }
-    }, {
-      key: 'refresh',
-      value: function refresh() {
-        this.draw(this.container);
+      value: function goto(id, cb) {
+        var deg = Math.abs(this.svg.style.transform.replace('rotate(', '').replace('deg)', '') || 0);
+        var ndeg = deg != 0 ? Math.abs(this.turnEndDegree) : 0;
+        ndeg = Math.abs(this.opts.ring * 360 + deg - ndeg);
+        this.index = this.getValueIndexById(id);
+        this.turnEndDegree = this.getValueDegreeByIndex(this.index);
+        this.turnCallback = cb;
+        this.svg.style.transform = 'rotate(-' + (ndeg + this.turnEndDegree) + 'deg)';
       }
     }, {
       key: 'draw',
@@ -277,9 +283,10 @@
         var degree = this.degree;
         var pathStartPoint = this.startPoint;
         var pathEndPoint = getPathPoint(this.center, degree);
-        this.values.map(function (info, i) {
+        this.values = this.values.map(function (info, i) {
           info.degree = i == 0 ? 90 + _this.degree / 2 : _this.values[i - 1].degree + _this.degree;
           if (info.degree >= 360) info.degree = info.degree - 360;
+          info.index = i;
           var g = createSvgEle('g');
           var path = setAttrs(createSvgEle('path'), {
             fill: info.bg,
@@ -320,9 +327,24 @@
           svg.appendChild(g);
           pathStartPoint = pathEndPoint;
           pathEndPoint = getPathPoint(_this.center, _this.degree + _this.degree * (i + 1));
+          return info;
         });
         container.appendChild(svg);
         this.svg = svg;
+        if (this.opts.type == 'transition') this.initTransition();
+      }
+    }, {
+      key: 'initTransition',
+      value: function initTransition() {
+        var _this2 = this;
+
+        setAttrs(this.svg, {
+          class: this.opts.className
+        });
+        this.svg.addEventListener('transitionend', function () {
+          _this2.turnCallback(_this2.values[_this2.index]);
+        }, false);
+        appendCSS('\n      .' + this.opts.className + ' {\n        -webkit-transition: -webkit-transform ' + this.opts.speed + 's ease-in-out;\n        transition: transform ' + this.opts.speed + 's ease-in-out;\n      }\n    ');
       }
     }]);
 
