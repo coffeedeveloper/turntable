@@ -1,5 +1,5 @@
 {
-  "name": "@flyme/lottery-turntable",
+  "name": "lottery-turntable",
   "version": "1.3.6",
   "description": "turntable for lottery",
   "main": "lib/turntable.js",
@@ -21,9 +21,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/coffeedeveloper/turntable/issues"
-  },
-  "publishConfig": {
-    "registry": "http://172.17.132.227:8888/"
   },
   "homepage": "https://github.com/coffeedeveloper/turntable#readme",
   "devDependencies": {
