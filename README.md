@@ -9,8 +9,7 @@
 
 #### 示例
 
-![示例](http://
-oap12gnk8.bkt.clouddn.com/turntable-example.png)
+![示例](http://oap12gnk8.bkt.clouddn.com/turntable-example.png)
 - [默认方式转盘](http://example.coffeedeveloper.com/turntable/examples/frame.html)
 - [transition方式转盘](http:///example.coffeedeveloper.com/turntable/examples/transition.html)
 
