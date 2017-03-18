@@ -3,8 +3,6 @@
 由于每个抽奖活动的样式都会不一样，因此这个插件只实现了绘画转盘及转盘转动的模块。
 点击抽奖按钮，和抽奖转盘的外框则自行实现，可以参考`examples`里面的例子。
 
-
-
 **支持IE9以上版本浏览器**
 
 #### 示例
@@ -12,6 +10,16 @@
 ![示例](http://oap12gnk8.bkt.clouddn.com/turntable-example.png)
 - [默认方式转盘](http://example.coffeedeveloper.com/turntable/examples/frame.html)
 - [transition方式转盘](http:///example.coffeedeveloper.com/turntable/examples/transition.html)
+
+#### 安装
+
+```
+npm install lottery-turntable
+
+or
+
+直接下载 https://raw.githubusercontent.com/coffeedeveloper/turntable/master/build/turntable.min.js
+```
 
 #### 接口说明
 ```javascript
