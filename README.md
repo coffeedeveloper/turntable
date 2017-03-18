@@ -1,5 +1,19 @@
 # 抽奖转盘
 
+由于每个抽奖活动的样式都会不一样，因此这个插件只实现了绘画转盘及转盘转动的模块。
+点击抽奖按钮，和抽奖转盘的外框则自行实现，可以参考`examples`里面的例子。
+
+
+
+**支持IE9以上版本浏览器**
+
+#### 示例
+
+![示例](http://
+oap12gnk8.bkt.clouddn.com/turntable-example.png)
+- [默认方式转盘](http://example.coffeedeveloper.com/turntable/examples/frame.html)
+- [transition方式转盘](http:///example.coffeedeveloper.com/turntable/examples/transition.html)
+
 #### 接口说明
 ```javascript
 var turntable = new Turntable({
@@ -20,6 +34,7 @@ var turntable = new Turntable({
 
 ```javascript
 var turntabl = new Turntable({
+  type: 'transition', //转盘转动类型
   size: 320, //转盘尺寸，默认为320
   textSpace: 15, //奖品名称距离转盘边距，默认为15
   imgSpace: 50, //奖品图片距离转盘边距，默认为50
@@ -53,7 +68,7 @@ var turntable = new Turntable({
 #### turntable事件说明
 
 ##### draw
-将转盘实例化到容器当中
+将转盘实例化到容器当中，如果设置`container`属性，则不需要调用该方法
 
 ```javascript
 turntable.draw(document.getElementById('container'));

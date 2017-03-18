@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="render" content="webkit">
+    <title>frame</title>
+    <style media="screen">
+      body {
+        font-family: Georgia, "Times New Roman", "Microsoft YaHei", "微软雅黑", STXihei, "华文细黑", serif;
+      }
+
+      .container {
+        position: relative;
+        box-sizing: border-box;
+        background: #db5256;
+        width: 350px;
+        height: 350px;
+        padding: 15px;
+        border-radius: 50%;
+      }
+
+      .container .btn {
+        position: absolute;
+        width: 86px;
+        top: 50%;
+        left: 50%;
+        margin-left: -43px;
+        margin-top: -52.5px;
+        transform: translateZ(0);
+        outline: 1px solid transparent;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <div id="turntable">
+      </div>
+      <img src="images/btn.png" class="btn" />
+    </div>
+
+    <p>
+      点击抽奖开始抽奖，再次点击抽奖停止抽奖
+    </p>
+
+    <script type="text/javascript" src="../build/turntable.js"></script>
+    <script type="text/javascript">
+      var turntable = new Turntable({
+        size: 320,
+        textSpace: 15,
+        imgSpace: 54,
+        values: [
+          {
+            id: 0,
+            name: '感谢参与',
+            img: {
+              width: 50,
+              height: 50,
+              src: 'images/thanks.png'
+            },
+            color: '#fc796f',
+            bg: '#fffdeb'
+          },
+          {
+            id: 1,
+            name: 'M+T恤',
+            img: {
+              width: 45,
+              height: 57,
+              src: 'images/tshirt.png'
+            },
+            color: '#fbe0e1',
+            bg: '#ed6e71'
+          },
+          {
+            id: 2,
+            name: '太空杯',
+            img: {
+              width: 45,
+              height: 57,
+              src: 'images/cup.png'
+            },
+            color: '#fc796f',
+            bg: '#fffdeb'
+          },
+          {
+            id: 3,
+            name: '电影券',
+            img: {
+              width: 50,
+              height: 35,
+              src: 'images/movie.png'
+            },
+            color: '#fbe0e1',
+            bg: '#ed6e71'
+          },
+          {
+            id: 0,
+            name: '感谢参与',
+            img: {
+              width: 50,
+              height: 50,
+              src: 'images/thanks.png'
+            },
+            color: '#fc796f',
+            bg: '#fffdeb'
+          },
+          {
+            id: 4,
+            name: '魅族雨伞',
+            img: {
+              width: 50,
+              height: 35,
+              src: 'images/umbrella.png'
+            },
+            color: '#fbe0e1',
+            bg: '#ed6e71'
+          },
+          {
+            id: 5,
+            name: 'Pro 5',
+            img: {
+              width: 30,
+              height: 60,
+              src: 'images/pro5.png'
+            },
+            color: '#fc796f',
+            bg: '#fffdeb'
+          },
+          {
+            id: 6,
+            name: '魅蓝metal',
+            img: {
+              width: 30,
+              height: 57,
+              src: 'images/metal.png'
+            },
+            color: '#fbe0e1',
+            bg: '#ed6e71'
+          },
+        ]
+      });
+
+      turntable.draw(document.getElementById('turntable'));
+
+      var random = function(min, max) {
+        return min + Math.floor(Math.random() * (max - min + 1));
+      }
+
+      var isStop = false;
+      document.querySelector('.btn').addEventListener('click', function() {
+        if (isStop) {
+          turntable.stop(random(0, 6), function(data) {
+            alert('恭喜你获得了：' + data.name);
+          });
+        } else {
+          turntable.start();
+        }
+        isStop = !isStop;
+      }, false);
+    </script>
+  </body>
+</html>

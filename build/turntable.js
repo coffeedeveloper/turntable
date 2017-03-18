@@ -61,34 +61,11 @@
   };
 
   var extend = function extend(target) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
+    for (var i = 0; i < arguments.length; i++) {
+      var arg = arguments[i];
 
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var arg = _step.value;
-
-        for (var p in arg) {
-          target[p] = arg[p];
-        }
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
+      for (var p in arg) {
+        target[p] = arg[p];
       }
     }
 
@@ -146,6 +123,7 @@
     className: 'turntable-effect',
     ring: 8
   };
+  var requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
 
   var Turntable = function () {
     function Turntable(options) {
@@ -192,11 +170,20 @@
         return this.values[index].degree;
       }
     }, {
+      key: 'setTransform',
+      value: function setTransform(val) {
+        this.svg.style.msTransform = val;
+        this.svg.style.oTransform = val;
+        this.svg.style.mozTransform = val;
+        this.svg.style.webkitTransform = val;
+        this.svg.style.transform = val;
+      }
+    }, {
       key: 'turning',
       value: function turning() {
         this.turnTotal += this.turnBase;
         if (this.turnTotal >= 360 || this.turnTotal <= -360) this.turnTotal = 0;
-        this.svg.style.transform = 'rotate(' + -this.turnTotal + 'deg)';
+        this.setTransform('rotate(' + -this.turnTotal + 'deg)');
       }
     }, {
       key: 'turned',
@@ -206,13 +193,13 @@
 
         if (parseInt(this.turnTotal, 10) == parseInt(this.turnEndDegree)) {
           cancelAnimationFrame(this.animation);
-          this.svg.style.transform = 'rotate(' + -this.turnTotal + 'deg)';
+          this.setTransform('rotate(' + -this.turnTotal + 'deg)');
           this.isTurning = false;
           this.turnCallback(this.opts.values[this.index]);
           return false;
         }
 
-        this.svg.style.transform = 'rotate(' + -this.turnTotal + 'deg)';
+        this.setTransform('rotate(' + -this.turnTotal + 'deg)');
         return true;
       }
     }, {
@@ -259,13 +246,15 @@
     }, {
       key: 'goto',
       value: function goto(id, cb) {
+        if (this.isTurning) return;
+        this.isTurning = true;
         var deg = Math.abs(this.svg.style.transform.replace('rotate(', '').replace('deg)', '') || 0);
         var ndeg = deg != 0 ? Math.abs(this.turnEndDegree) : 0;
         ndeg = Math.abs(this.opts.ring * 360 + deg - ndeg);
         this.index = this.getValueIndexById(id);
         this.turnEndDegree = this.getValueDegreeByIndex(this.index);
         this.turnCallback = cb;
-        this.svg.style.transform = 'rotate(-' + (ndeg + this.turnEndDegree) + 'deg)';
+        this.setTransform('rotate(-' + (ndeg + this.turnEndDegree) + 'deg)');
       }
     }, {
       key: 'draw',
@@ -342,6 +331,8 @@
           class: this.opts.className
         });
         this.svg.addEventListener('transitionend', function () {
+          _this2.isTurning = false;
+
           _this2.turnCallback(_this2.values[_this2.index]);
         }, false);
         appendCSS('\n      .' + this.opts.className + ' {\n        -webkit-transition: -webkit-transform ' + this.opts.speed + 's ease-in-out;\n        transition: transform ' + this.opts.speed + 's ease-in-out;\n      }\n    ');
